@@ -7,19 +7,20 @@ from email.mime.multipart import MIMEMultipart
 #code untuk menambah attachment
 from email.mime.base import MIMEBase
 from email import encoders
+#code untuk hapus file
 import os
 
-
+#user input untuk email yang ingin dikirimkan
 jumlah_email = int(input("Berapa jumlah email : "))
 for i in range(jumlah_email):
     print("Data ke {}" .format(i+1))
     user_email = input()
     penerima = open("receiver_list.txt" , "a")
-    penerima.write(user_email + "\n")
+    penerima.write (user_email + ",")
     penerima.close()
-
+#buka file yang berisi email yang di input
 file_list = open("receiver_list.txt" , "r")
-teks = file_list.read()
+teks = str(file_list.read())
 file_list.close()
 
 
@@ -51,13 +52,13 @@ msg.attach(part)
 #login ke email pengirim
 server = smtplib.SMTP('smtp.gmail.com', 587) #connect to name and port server
 server.starttls()
-server.login(email_user, "ipb562019") #autentifikasi
+server.login(email_user, "davakenes56") #autentifikasi
 
 text = msg.as_string() #konversi objek message ke string
 
 
 #kirim
-server.sendmail(email_user, teks , text)
+server.sendmail(email_user, teks.split(",") , text)
 
 
 #disconnect dari server
